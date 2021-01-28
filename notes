@@ -1,0 +1,51 @@
+HTTP Cookies
+    1.Small peice of data send by server usually kept by browser.
+    2.browser sends these Cookies with the future request to the same server.
+    3.Although HTTP is stateless, i.e. there is no link b/w two request coming from same connection
+    4.This will be a problem as we want to have the data about user from previous request so that we can identify which user is requesting.
+    5.Cookies mainly used to maintain the session data about user.
+
+Creating cookies
+    1.After recieving the request server can set one or more set-cookie headers with the response.
+    2.Then browser can send the cookie data in future request by putting cookie inside cookie header in HTTP.
+    3.We can specify the expiry time of cookie which is the time after which the cookie will not be send.
+
+Format of Cookies
+    <cookie-name>=<cookie-value>
+
+Attributes of Cookies.
+    1.Expires=<date>, when we set the date is relative to client not the server.
+        if we don't specify the Expires then cookie becomes the session cookie i.e. cookie deleted when session is finished and session gets finished when user shut down the system.
+    2.Max-Age=<Number>, number of seconds until cookie Expires. zero or negative number results in immediate expiry of cookie.
+Note-> if Expiry and Max-Age both are set then Max-Age has the precedence.
+    
+    3.Domain=<domain-value>, specify the domain to which cookie will be send.
+        1.If not supplied then points to document URL but will not include sub-Domain.
+        2.Multiple domain name are not allowed, but if we specify domain then subdomains will be included.
+
+Example->http://www.google.com -> protocol://subdomain.domain.top-level-domain || protocol://subdomain.rootdomain
+        rootdomain =  domain+top-level-domain.
+
+    4.Path=<path-value>
+        Path that must exists in requested url otherwise the cookies will not be send
+    
+    5.Secure
+        After using this flag that cookie will only be send to server if request is made using https://
+    Note->This doesn't mean important information in the cookies can be read/modify after using secure flag. it can still be manupulated by JS.
+
+    6.HttpOnly
+        After setting this flag cookies can't be read or modify by JS also.
+        This mitigates the chances of cross-site-scripting(XSS).
+Note-> 
+    Cross-Site-scripting, when attacker injected the malicious code into client browse.This code is run by client.
+    browser is not able to detect that this malicous script so it gives the access to cookie data.
+
+    7.SameSite=<samesite-value>
+        Controls whether cookies will be send to cross-origin requests.
+Note-> Cross-Origin Request:
+        Those request whose origin are not same.
+        By default browser don't have the access to read data from cross-origin server so we need to enable the CORS so that browser can read the data.
+            Refer https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie for below.
+        1.Strict-> 
+        2.Lax->
+        3.None->        
